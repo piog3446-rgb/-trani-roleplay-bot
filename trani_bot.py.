@@ -1,0 +1,99 @@
+import os
+import discord
+from discord import app_commands
+
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+intents = discord.Intents.default()
+bot = discord.Client(intents=intents)
+tree = app_commands.CommandTree(bot)
+
+
+@tree.command(name="cittadinanza", description="Richiedi la cittadinanza di Trani")
+async def cittadinanza(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "🇮🇹 **RICHIESTA DI CITTADINANZA**\n"
+        "Scrivi qui sotto i tuoi dati:\n"
+        "• Nome e cognome\n"
+        "• Età\n"
+        "• Motivo della richiesta",
+        ephemeral=True
+    )
+
+
+@tree.command(name="patente", description="Richiedi la patente")
+async def patente(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "🚗 **RICHIESTA PATENTE**\n"
+        "• Nome e cognome\n"
+        "• Età del personaggio\n"
+        "• Categoria di patente richiesta",
+        ephemeral=True
+    )
+
+
+@tree.command(name="portoarmi", description="Richiedi il porto d'armi")
+async def portoarmi(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "📋 **RICHIESTA PORTO D'ARMI**\n"
+        "• Nome del personaggio\n"
+        "• Motivo della richiesta\n"
+        "• Conferma di rispettare le regole RP",
+        ephemeral=True
+    )
+
+
+@tree.command(name="veicolo", description="Registra un veicolo RP")
+async def veicolo(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "🚘 **REGISTRAZIONE VEICOLO**\n"
+        "• Nome del proprietario\n"
+        "• Marca e modello\n"
+        "• Colore\n"
+        "• Targa RP",
+        ephemeral=True
+    )
+
+
+@tree.command(name="character", description="Crea il tuo personaggio RP")
+async def character(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "👤 **CREAZIONE PERSONAGGIO RP**\n"
+        "• Nome e cognome\n"
+        "• Età\n"
+        "• Lavoro\n"
+        "• Storia del personaggio",
+        ephemeral=True
+    )
+
+
+@tree.command(name="911", description="Richiedi soccorso RP")
+async def emergenza(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "🚨 **CHIAMATA DI EMERGENZA RP**\n"
+        "• Tipo di emergenza\n"
+        "• Luogo\n"
+        "• Descrizione della situazione",
+        ephemeral=True
+    )
+
+
+@tree.command(name="annunci-rp", description="Pubblica una richiesta di annuncio RP")
+async def annunci(interaction: discord.Interaction):
+    await interaction.response.send_message(
+        "📢 **ANNUNCIO RP**\n"
+        "Scrivi il testo dell'annuncio e indica il personaggio che lo pubblica.",
+        ephemeral=True
+    )
+
+
+@bot.event
+async def on_ready():
+    await tree.sync()
+    print(f"Bot online: {bot.user}")
+
+
+if not TOKEN:
+    raise RuntimeError("Manca la variabile DISCORD_TOKEN")
+
+bot.run(TOKEN)
